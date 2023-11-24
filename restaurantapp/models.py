@@ -37,20 +37,12 @@ class Employee(models.Model):
     
     
     
-# class Customer(models.Model):
-#     FullName=models.CharField(max_length=50)    
-#     phoneNumber=models.CharField(max_length=50)
-#     MY_GENDER = (("male","Male"), ("female","Female"), ("others","Others"))
-#     Gender=models.CharField(max_length=300,choices=MY_GENDER,verbose_name="Gender")
-#     location=models.CharField(max_length=50)
-#     def __str__(self):
-#         return self.FullName
 
 
-class OrderDetails(models.Model):
+class OrderDetail(models.Model):
     Customer_Name=models.CharField(max_length=50)
     OrderId=models.CharField(max_length=50)
-    # Customer=models.ForeignKey(Customer,on_delete=models.CASCADE)  
+      
     location=models.CharField(max_length=50)
     orderDate=models.DateField() 
     DeliveryTime=models.TimeField()
@@ -67,9 +59,9 @@ class Food(models.Model):
         return self.items
     
     
-class OrderItems(models.Model):
+class OrderItem(models.Model):
     
-    OrderId=models.ForeignKey(OrderDetails,on_delete=models.CASCADE)
+    OrderId=models.ForeignKey(OrderDetail,on_delete=models.CASCADE)
     Items=models.ForeignKey(Food,on_delete=models.CASCADE)
     Quantity=models.CharField(max_length=50)
     def save(self, *args, **kwargs):

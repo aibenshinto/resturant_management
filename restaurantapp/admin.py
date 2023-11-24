@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employee, Food, OrderItems, OrderDetails, District, State
+from .models import Employee, Food, OrderItem, OrderDetail, District, State
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.html import format_html
@@ -11,7 +11,7 @@ class FoodAdmin(admin.ModelAdmin):
     list_display = ('items', 'price')
 
 class OrderItemsAdmin(admin.TabularInline):  # Make sure it's a TabularInline or StackedInline
-    model = OrderItems
+    model = OrderItem
     list_display = ('OrderId', 'Items', 'Quantity')
     extra = 2  # Number of empty forms to display
     min_num = 1  # Minimum number of forms
@@ -37,7 +37,7 @@ class OrderDetailsAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
         
     def view_order_items(self, obj):
-        receipts_url = reverse('admin:%s_%s_changelist' % (OrderItems._meta.app_label,  OrderItems._meta.model_name))
+        receipts_url = reverse('admin:%s_%s_changelist' % (OrderItem._meta.app_label,  OrderItem._meta.model_name))
         return format_html('<a href="{}?OrderId__id__exact={}">View Items</a>', receipts_url, obj.id)
 
     view_order_items.short_description = 'Order Items'
@@ -54,8 +54,8 @@ class DistAdmin(admin.ModelAdmin):
 
 admin.site.register(Employee, EmpAdmin)
 admin.site.register(Food, FoodAdmin)
-admin.site.register(OrderItems, OrderItemsAdmin1)
-admin.site.register(OrderDetails, OrderDetailsAdmin)
+admin.site.register(OrderItem, OrderItemsAdmin1)
+admin.site.register(OrderDetail, OrderDetailsAdmin)
 
 admin.site.register(District, DistAdmin)
 admin.site.register(State, StateAdmin)
