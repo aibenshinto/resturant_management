@@ -6,6 +6,31 @@ from django.utils.html import format_html
 
 class EmpAdmin(admin.ModelAdmin):
     list_display = ('FullName', 'ID_Number', 'Gender', 'phoneNumber', 'state', 'district')
+    exclude = ('ID_Number',)
+    # def save_model(self, request, obj, form, change):
+    #     if not obj.ID_Number:
+    #         # Generate OrderID based on customer name
+
+    #         obj.ID_Number = f"{obj.FullName}"
+
+    #     super().save_model(request, obj, form, change)
+        
+    def save_model(self, request, obj, form, change):
+        if not obj.ID_Number:
+            # Generate a unique ID starting with '00'
+            last_id = Employee.objects.order_by('-ID_Number').first()
+
+            if last_id:
+                # Increment the last ID by 1
+                new_id = int(last_id.ID_Number) + 1
+            else:
+                # If there are no existing IDs, start with '00'
+                new_id = 0
+
+            # Format the new ID as a string with leading zeros
+            obj.ID_Number = f"{new_id:02d}"
+
+        super().save_model(request, obj, form, change)
 
 class FoodAdmin(admin.ModelAdmin):
     list_display = ('items', 'price')

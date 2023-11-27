@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'restaurantapp',
     'smart_selects',
+    
+    
+
 ]
 
 MIDDLEWARE = [

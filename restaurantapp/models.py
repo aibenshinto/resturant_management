@@ -1,5 +1,6 @@
 from django.db import models
 from smart_selects.db_fields import ChainedForeignKey
+from django.core.validators import RegexValidator
 
 # Create your models here.
 class State(models.Model):
@@ -21,10 +22,14 @@ class District(models.Model):
     
 class Employee(models.Model):
     FullName=models.CharField(max_length=50)
-    ID_Number=models.IntegerField()
+    ID_Number=models.CharField(max_length=50)
     MY_GENDER = (("male","Male"), ("female","Female"), ("others","Others"))
     Gender=models.CharField(max_length=300,choices=MY_GENDER,verbose_name="Gender")
-    phoneNumber=models.CharField(max_length=50)
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,10}$',
+        message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+    )
+    phoneNumber = models.CharField(validators=[phone_regex], max_length=10, blank=True)  # validators should be a list
     state=models.ForeignKey(State,on_delete=models.CASCADE)  
     district=ChainedForeignKey(District,
         chained_field="state",
