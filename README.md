@@ -2,4 +2,4 @@
 https://aibenoneteam.pythonanywhere.com/admin/
 
 login: admin
-password: aibenadmin123
+,password: aibenadmin123
